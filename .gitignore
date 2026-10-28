@@ -1,0 +1,10 @@
+# Editör ve derleme dosyaları
+.vscode/
+.idea/
+build/
+*.exe
+*.o
+
+# Yerel ayarlar / gizli bilgiler
+.env
+*.local.php

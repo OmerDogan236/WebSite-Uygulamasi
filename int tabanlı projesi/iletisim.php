@@ -81,15 +81,17 @@ if(isset($_POST["isim"],$_POST["tel"],$_POST["mail"],$_POST["konu"],$_POST["mesa
   $email=$_POST["mail"];
   $konu=$_POST["konu"];
   $mesaj=$_POST["mesaj"];
-  $ekle="INSERT INTO iletisim(adsoyad,telefon,email,konu,mesaj) VALUES
-  ('".$adsoyad."','".$telefon."','".$email."','".$konu."','".$mesaj."')" ;
+  // Form verisi sorguya doğrudan eklenmiyor; hazırlanmış sorgu SQL enjeksiyonunu engeller
+  $ekle=$baglan->prepare("INSERT INTO iletisim(adsoyad,telefon,email,konu,mesaj) VALUES (?,?,?,?,?)");
+  $ekle->bind_param("sssss",$adsoyad,$telefon,$email,$konu,$mesaj);
 
-if($baglan->query($ekle)==true) 
+if($ekle->execute())
 {
- 
-  echo "<script> alert ('mesaj gönderildi..') </script>"; 
- 
+
+  echo "<script> alert ('mesaj gönderildi..') </script>";
+
 }
 
+$ekle->close();
 }
 ?>
